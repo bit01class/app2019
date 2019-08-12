@@ -8,9 +8,14 @@
 </head>
 <body>
 
+<a href="mylogin">login</a>
+
+<a href="mylogout">logout</a>
+
 <h1>
 	<a href="./">Hello world!</a>  
 </h1>
+
 <a href="add">add</a>
 <form action="find">
 	<input type="text" name="num"/><button>검색</button>

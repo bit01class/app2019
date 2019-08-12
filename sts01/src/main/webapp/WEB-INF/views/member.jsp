@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>member page</h1>
+	<a href="mylogout">logout</a>
 </body>
 </html>

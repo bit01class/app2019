@@ -6,11 +6,10 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +30,23 @@ public class HomeController {
 //	public String home() {
 //		return "home";
 //	}
+	@GetMapping("/user")
+	public void all() {
+	}
 	@GetMapping("/member")
 	public void member() {
 	}
 	@GetMapping("/admin")
 	public void admin() {
+	}
+	@GetMapping("/mylogin")
+	public void mylogin(String logout,Model model) {
+		if(logout!=null) {
+			model.addAttribute("logout", "·Î±×¾Æ¿ôÇÏ¼Ì½À´Ï´Ù!!!");
+		}
+	}
+	@GetMapping("/mylogout")
+	public void mylogout() {
 	}
 	
 	@GetMapping(value = "/list")

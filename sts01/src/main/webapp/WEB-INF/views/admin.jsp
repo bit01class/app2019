@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>admin page</h1>
+	<a href="mylogout">logout</a>
 </body>
 </html>

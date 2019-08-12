@@ -7,11 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>all page</h1>
-	<a href="mylogout">logout</a>
-	<img alt="" src="http://localhost:8080/sts01">
-	<!-- 
-	 -->
-	<img alt="" src="http://localhost:3000/">
+	<h1>로그아웃</h1>
+	<form method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<button>로그아웃</button>
+	</form>
 </body>
 </html>
