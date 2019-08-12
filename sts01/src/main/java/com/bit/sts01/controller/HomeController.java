@@ -31,6 +31,13 @@ public class HomeController {
 //	public String home() {
 //		return "home";
 //	}
+	@GetMapping("/member")
+	public void member() {
+	}
+	@GetMapping("/admin")
+	public void admin() {
+	}
+	
 	@GetMapping(value = "/list")
 	public @ResponseBody ResponseEntity<?> list() throws SQLException {
 		return ResponseEntity.status(HttpStatus.OK).body(testDbService.getList());
