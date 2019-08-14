@@ -28,8 +28,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			if(ele.getAuthority().equals("ROLE_MEMBER")) {
 				response.sendRedirect("member");
 				return;
+			}else if(ele.getAuthority().equals("ROLE_ADMIN")) {
+				response.sendRedirect("admin");
+				return;
 			}
 		}
+		response.sendRedirect("./");
+		return;
 	}
 
 }

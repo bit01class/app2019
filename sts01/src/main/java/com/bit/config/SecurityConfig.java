@@ -17,12 +17,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/")
 			.permitAll()//아무나 접근
 			.antMatchers("/find")//검색은 회원만 접근
-			.access("hasRole('ROLE_MEMBER')");
+			.access("hasRole('ROLE_MEMBER')")
+
+			.antMatchers("/find")//검색은 회원,관리자만 접근
+			.access("hasRole('ROLE_ADMIN')")
+			
+
+			.antMatchers("/member")//검색은 회원만 접근
+			.access("hasRole('ROLE_MEMBER')")
+
+			.antMatchers("/admin")//검색은 회원만 접근
+			.access("hasRole('ROLE_ADMIN')");;
 		
 		http.formLogin()
 			.loginPage("/login")
 			.loginProcessingUrl("/login")
 			.successHandler(successHandler());
+		
+		http.logout()
+			.logoutUrl("/logout")
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSION_ID");
 	}
 	
 	private AuthenticationSuccessHandler successHandler() {

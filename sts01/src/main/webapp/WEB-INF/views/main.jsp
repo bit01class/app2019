@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>${msg }님 환영합니다</h1>
+	<a href="./">메인으로</a>
 </body>
 </html>
