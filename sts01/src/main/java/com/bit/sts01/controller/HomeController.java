@@ -6,11 +6,10 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +30,27 @@ public class HomeController {
 //	public String home() {
 //		return "home";
 //	}
+	@GetMapping("/member")
+	public String member(Model model) {
+		model.addAttribute("msg", "회원");
+		return "main";
+	}
+	@GetMapping("/admin")
+	public String admin(Model model) {
+		model.addAttribute("msg", "관리자");
+		return "main";
+	}
+	@GetMapping("/user")
+	public String user(Model model) {
+		model.addAttribute("msg", "일반");
+		return "main";
+	}
+	@GetMapping("/login")
+	public void login() {
+	}
+	@GetMapping("/logout")
+	public void logout() {
+	}
 	@GetMapping(value = "/list")
 	public @ResponseBody ResponseEntity<?> list() throws SQLException {
 		return ResponseEntity.status(HttpStatus.OK).body(testDbService.getList());
