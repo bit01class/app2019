@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.bit.sts01.model.MemberDao">
+  
+  	<resultMap type="com.bit.sts01.model.entity.MemberVo" id="MemberVo">
+  		<id property="userid" column="userid"/>
+  		<result property="userid" column="userid"/>
+  		<result property="userpw" column="userpw"/>
+  		<result property="name" column="name"/>
+  		<result property="enabled" column="enabled"/>
+  		<result property="age" column="age"/>
+  		<result property="nalja" column="nalja"/>
+  		<collection property="authList" resultMap="AuthVo"></collection>
+  	</resultMap>
+  	
+  	<resultMap type="com.bit.sts01.model.entity.AuthVo" id="AuthVo">
+  		<result property="userid" column="userid"/>
+  		<result property="auth" column="auth"/>
+  	</resultMap>
+  
+  	<select id="read" resultMap="MemberVo">
+  	select A.userid, userpw, name, enabled, age, nalja, auth from testMember A left outer join testAuth B on A.userid=B.userid where A.userid = #{userid}
+  	</select>
+  
+  </mapper>

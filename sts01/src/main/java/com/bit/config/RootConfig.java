@@ -21,6 +21,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @MapperScan(basePackages = {"com.bit.sts01.model"})
+//@MapperScan(basePackages = "classpath:/securityMapper.xml")
 public class RootConfig {
 
 	@Bean
@@ -28,10 +29,10 @@ public class RootConfig {
 		DataSource dataSource=null;
 		HikariConfig config=null;
 		config=new HikariConfig();
-		config.setDriverClassName("org.gjt.mm.mysql.Driver");
-		config.setJdbcUrl("jdbc:mysql://localhost:3306/xe");
-//		config.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-//		config.setJdbcUrl("jdbc:log4jdbc:mariadb://localhost:3306/xe");
+//		config.setDriverClassName("org.gjt.mm.mysql.Driver");
+//		config.setJdbcUrl("jdbc:mysql://localhost:3306/xe");
+		config.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+		config.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/xe");
 		config.setUsername("scott");
 		config.setPassword("tiger");
 		dataSource=new HikariDataSource(config);
