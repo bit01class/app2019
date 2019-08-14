@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -42,6 +44,8 @@ public class RootConfig {
 	public SqlSessionFactory sqlSessionFoFactory() throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 		bean.setDataSource(getDataSource());
+		Resource mapperLocations=new ClassPathResource("/mapper/Member.xml");
+		bean.setMapperLocations(mapperLocations);
 		return bean.getObject();
 	}
 	

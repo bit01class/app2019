@@ -11,10 +11,10 @@
 	<form method="post">
 			<input type="hidden"  name="${_csrf.parameterName }" value="${_csrf.token }"/>
 		<div>
-			<input type="text"  name="username"/>
+			<input type="text" value="user01"  name="username"/>
 		</div>
 		<div>
-			<input type="password"  name="password"/>
+			<input type="password" value="1234"  name="password"/>
 		</div>
 		<div>
 			<input type="submit" value="로그인" />
