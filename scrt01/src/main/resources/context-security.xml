@@ -2,16 +2,68 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<security:http>
+	<security:http entry-point-ref="authenticationEntryPoint">
+		<security:intercept-url pattern="/admin" access="isAuthenticated()"/>
+		<!-- 
 		<security:intercept-url pattern="/" access="permitAll"/>
 		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/user" access="hasRole('ROLE_MEMBER')"/>
 		<security:form-login login-page="/login"/>
+		 -->
 		<security:logout logout-url="/logout"/>
+		<!-- 필터에 의해 인증 예외가 발생하면 인증서버의 로그인 페이지로 redirect되어야 한다. -->
+		<security:custom-filter ref="oauth2ClientFilter" 
+								after="EXCEPTION_TRANSLATION_FILTER" />
+		<!-- 인증서버로 부터 리턴받은 Access Token의 정보를 SecurityContext에 전달하는 필터 -->
+		<security:custom-filter ref="oauth2AuthenticationProcessingFilter" 
+								before="FILTER_SECURITY_INTERCEPTOR" />
 	</security:http>
+	
+	<bean id="authenticationEntryPoint" 
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+	    <constructor-arg index="0" value="https://github.com/login/oauth/authorize" />
+	</bean>
+	<!-- security filter chain에 OAuth2ClientContextFilter 추가 -->
+    <oauth2:client id="oauth2ClientFilter" />
+
+    <!-- OAuth2ProtectedResourceDetails -->
+    <oauth2:resource
+        id="github"
+		client-id="c49cc3ffb815bcc491ea"
+		client-secret="49a8eb3ae2e8b952e8350c5b7fa47a976770965a"
+		access-token-uri="https://api.github.com/user"
+		user-authorization-uri="https://github.com/login/oauth/authorize"
+		scope="repo,gist"
+		type="authorization_code"
+		client-authentication-scheme="form"/>
+		
+	<bean id="oauth2AuthenticationProcessingFilter" class="org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter">
+        <!-- This should match whatever you have configured in the login entry point above -->
+        <constructor-arg name="defaultFilterProcessesUrl" value="/callback"/>
+        <property name="restTemplate" ref="restTemplate"/>
+        <property name="tokenServices" ref="tokenServices"/>
+        <property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
+    </bean>
+    
+    <oauth2:rest-template id="restTemplate" resource="github"/>
+    <bean id="tokenServices" class="com.bit.scrt.oauth.GithubService">
+        <property name="checkTokenEndpointUrl" value="http://localhost:8080/scrt/callback2"/>
+        <property name="clientId" value="c49cc3ffb815bcc491ea"/>
+        <property name="clientSecret" value="49a8eb3ae2e8b952e8350c5b7fa47a976770965a"/>
+        <property name="accessTokenConverter" ref="accessTokenConverter" />
+    </bean>
+    <bean id="accessTokenConverter" class="com.bit.scrt.oauth.GithubAccessTokenConverter">
+        <property name="userTokenConverter">
+            <bean class="com.bit.scrt.oauth.DefaultUserAuthenticationConverter"/>
+        </property>
+    </bean>
+    <bean id="authenticationSuccessHandler" class="com.bit.scrt.oauth.CustomAuthenticationSuccessHandler" />
+	
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<!-- 
